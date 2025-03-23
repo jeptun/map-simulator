@@ -1,0 +1,34 @@
+﻿# Build results
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider (JetBrains) config
+.idea/
+*.sln.iml
+
+# VSCode settings (optional)
+.vscode/
+
+# Logs
+*.log
+
+# Publish results
+publish/
+
+# Secrets (pokud nějaké máš)
+appsettings.Development.json
+secrets.json
+
+# Debug build files
+*.dll
+*.exe
+*.pdb
+*.cache
+*.json
+*.csproj.user
