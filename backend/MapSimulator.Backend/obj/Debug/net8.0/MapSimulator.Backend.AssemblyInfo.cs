@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MapSimulator.Backend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4573644a1f61f66df2eb613159b03b78ee64501b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+690f6b6c5e06296f0d6c7a4a5927d343d14ea165")]
 [assembly: System.Reflection.AssemblyProductAttribute("MapSimulator.Backend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MapSimulator.Backend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

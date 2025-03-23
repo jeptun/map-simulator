@@ -31,3 +31,11 @@ C:\DEV\map-simulator\backend\MapSimulator.Backend\obj\Debug\net8.0\refint\MapSim
 C:\DEV\map-simulator\backend\MapSimulator.Backend\obj\Debug\net8.0\MapSimulator.Backend.pdb
 C:\DEV\map-simulator\backend\MapSimulator.Backend\obj\Debug\net8.0\MapSimulator.Backend.genruntimeconfig.cache
 C:\DEV\map-simulator\backend\MapSimulator.Backend\obj\Debug\net8.0\ref\MapSimulator.Backend.dll
+C:\DEV\map-simulator\backend\MapSimulator.Backend\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\DEV\map-simulator\backend\MapSimulator.Backend\bin\Debug\net8.0\Microsoft.Extensions.Diagnostics.Abstractions.dll
+C:\DEV\map-simulator\backend\MapSimulator.Backend\bin\Debug\net8.0\Microsoft.Extensions.Hosting.Abstractions.dll
+C:\DEV\map-simulator\backend\MapSimulator.Backend\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\DEV\map-simulator\backend\MapSimulator.Backend\bin\Debug\net8.0\Microsoft.Extensions.ObjectPool.dll
+C:\DEV\map-simulator\backend\MapSimulator.Backend\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
+C:\DEV\map-simulator\backend\MapSimulator.Backend\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\DEV\map-simulator\backend\MapSimulator.Backend\bin\Debug\net8.0\System.Net.WebSockets.WebSocketProtocol.dll
