@@ -1,67 +1,62 @@
-﻿# ========================
-# 📦 Backend (.NET / C#)
-# ========================
-**/bin/
-**/obj/
-**/.vs/
-**/.vscode/
+﻿# ================
+# Monorepo Setup
+# ================
 
-# Rider IDE
+# Common system files
+.DS_Store
+Thumbs.db
+
+# IDE / Editor settings
+.vscode/
 .idea/
 *.suo
 *.user
 *.userosscache
 *.sln.docstates
-
-# Build files
-*.dll
-*.exe
-*.pdb
-*.cache
-*.log
-*.db
-*.db-shm
-*.db-wal
-*.bak
-
-# User-specific
-*.csproj.user
-
-# ASP.NET launch config
-**/Properties/launchSettings.json
-
-# Secrets
-secrets.json
-appsettings.*.json
-
-# Optional:
-*.swp
-*.tmp
-
-# ===========================
-# 💻 Frontend (Vite + React)
-# ===========================
-node_modules/
-dist/
-.build/
-.cache/
-.vite/
-coverage/
-*.log
-
-# Environment
-.env
-.env.*
-.vite-env.d.ts
-
-# System junk
-.DS_Store
-Thumbs.db
-
-# IDE / Editor junk
-.idea/
-.vscode/
+*.sln.iml
 *.iml
 
-# TypeScript build
-*.tsbuildinfo
+# ========================
+# Backend (.NET / C#)
+# ========================
+
+**/bin/
+**/obj/
+**/publish/
+**/*.dll
+**/*.exe
+**/*.pdb
+**/*.cache
+**/*.csproj.user
+
+# ASP.NET configs
+**/launchSettings.json
+**/appsettings.Development.json
+**/appsettings.*.json
+**/secrets.json
+
+# Logs
+**/*.log
+
+# =========================
+# Frontend (Vite + React)
+# =========================
+
+**/node_modules/
+**/dist/
+**/.vite/
+**/.build/
+**/.cache/
+**/.turbo/
+
+# Env files
+**/.env
+**/.env.*
+**/vite-env.d.ts
+
+# TypeScript
+**/*.tsbuildinfo
+
+# Editor junk again for frontend
+**/.idea/
+**/.vscode/
