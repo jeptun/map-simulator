@@ -1,16 +1,14 @@
-import {Button} from './components/ui/button'
+import PageLayout from "@/layouts/PageLayout.tsx";
+import {ThemeProvider} from "@/components/theme-provider.tsx";
 
 
 function App() {
 
 
     return (
-        <>
-            <h1 className="text-3xl font-bold underline">Vite + React</h1>
-            <div className="flex flex-col items-center justify-center min-h-svh">
-                <Button>Click me</Button>
-            </div>
-        </>
+        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+            <PageLayout/>
+        </ThemeProvider>
     )
 }
 
