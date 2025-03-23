@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "aK82JQcqP7kLqO6BXwCAo2HuhgqlWvSkq/V3WkMSO/k=",
+  "Source": "MapSimulator.Backend",
+  "BasePath": "_content/MapSimulator.Backend",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
