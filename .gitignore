@@ -1,0 +1,67 @@
+﻿# ========================
+# 📦 Backend (.NET / C#)
+# ========================
+**/bin/
+**/obj/
+**/.vs/
+**/.vscode/
+
+# Rider IDE
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build files
+*.dll
+*.exe
+*.pdb
+*.cache
+*.log
+*.db
+*.db-shm
+*.db-wal
+*.bak
+
+# User-specific
+*.csproj.user
+
+# ASP.NET launch config
+**/Properties/launchSettings.json
+
+# Secrets
+secrets.json
+appsettings.*.json
+
+# Optional:
+*.swp
+*.tmp
+
+# ===========================
+# 💻 Frontend (Vite + React)
+# ===========================
+node_modules/
+dist/
+.build/
+.cache/
+.vite/
+coverage/
+*.log
+
+# Environment
+.env
+.env.*
+.vite-env.d.ts
+
+# System junk
+.DS_Store
+Thumbs.db
+
+# IDE / Editor junk
+.idea/
+.vscode/
+*.iml
+
+# TypeScript build
+*.tsbuildinfo
