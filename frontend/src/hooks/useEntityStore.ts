@@ -5,6 +5,7 @@ export type Entity = {
     latitude: number
     longitude: number
     status: string
+    vehicleId: string
 }
 
 type EntityState = {

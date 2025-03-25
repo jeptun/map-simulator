@@ -4,7 +4,7 @@ import {ThemeProvider} from "@/components/theme-provider.tsx";
 import {useEntityConnection} from '@/hooks/useEntityConnection'
 
 scan({
-    enabled: true
+    enabled: false
 })
 
 function App() {
