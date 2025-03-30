@@ -14,7 +14,7 @@ public class VehiclesController : ControllerBase
             Id = "Car",
             Name = "Obrněné auto",
             Type = "light",
-            Icon = "car.png",
+            Icon = "car.jpg",
             Color = "#007bff",
             Description = "Rychlé a lehce pancéřované vozidlo"
         },
