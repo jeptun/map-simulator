@@ -6,6 +6,11 @@ export type Entity = {
     longitude: number
     status: string
     vehicleId: string
+    team: string
+    affiliation: string
+    battleDimension: string
+    functionId: string
+    symbolType: string
 }
 
 type EntityState = {

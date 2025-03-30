@@ -10,7 +10,8 @@ import {
     SidebarMenuItem,
     SidebarRail,
 } from "@/components/ui/sidebar"
-import CardItem from "@/components/card-item.tsx";
+
+import {EntityList} from "@/components/cards/EntityList.tsx";
 
 
 export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
@@ -22,13 +23,7 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
                     <SidebarGroupContent>
                         <SidebarMenu>
                             <SidebarMenuItem>
-                                <CardItem/>
-                            </SidebarMenuItem>
-                            <SidebarMenuItem>
-                                <CardItem/>
-                            </SidebarMenuItem>
-                            <SidebarMenuItem>
-                                <CardItem/>
+                                <EntityList/>
                             </SidebarMenuItem>
                         </SidebarMenu>
                     </SidebarGroupContent>
