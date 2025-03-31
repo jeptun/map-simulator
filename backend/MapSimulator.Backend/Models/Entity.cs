@@ -9,9 +9,9 @@ public class Entity
     public double Longitude { get; set; }
 
     public string Team { get; set; } = "Red"; // "Red" | "Blue"
+    public string Status { get; set; } = "Idle"; // "Moving" | "Idle" | "Firing" | "Destroyed"
 
-    public string Status { get; set; } = "Present"; // "Present" | "Planned"
-
+    //Def for milsymbol
     public string Affiliation { get; set; } = "Hostile"; // "Hostile" | "Friend"
     public string BattleDimension { get; set; } = "Ground"; // "Ground" | "Air" | "Sea"
     public string SymbolType { get; set; } = "unit"; // default "unit"

@@ -35,13 +35,13 @@ public class EntitySimulationService : BackgroundService
         }
 
         // 🔵 Modrý tým (Friend)
-        _entities.Add(("vehicle-blue-1", "Tank", "Blue", 0, 0.00));
-        _entities.Add(("vehicle-blue-2", "Tank", "Blue", -3, 0.01));   // severněji
-        _entities.Add(("vehicle-blue-3", "Car",  "Blue", -6, -0.01));  // jižněji
+        _entities.Add(("vehicle-blue-1", "Leopard2A7", "Blue", 0, 0.00));
+        _entities.Add(("vehicle-blue-2", "Leclerc", "Blue", -3, 0.01));   // severněji
+        _entities.Add(("vehicle-blue-3", "MQ9",  "Blue", -6, -0.01));  // jižněji
 
         // 🔴 Červený tým (Hostile)
-        _entities.Add(("vehicle-red-1", "Drone", "Red", -10, 0.02));
-        _entities.Add(("vehicle-red-2", "Drone", "Red", -13, -0.02));
+        _entities.Add(("vehicle-red-1", "T90M", "Red", -10, 0.02));
+        _entities.Add(("vehicle-red-2", "T80U", "Red", -13, -0.02));
 
         // ⏱️ Inicializace pozic entit podle offsetu
         foreach (var (id, _, _, offset, _) in _entities)
@@ -78,7 +78,7 @@ public class EntitySimulationService : BackgroundService
                     Latitude = lat,
                     Longitude = lon,
                     Team = team,
-                    Status = "Present",
+                    Status = "Idle",
                     Affiliation = affiliation,
                     BattleDimension = battleDimension,
                     SymbolType = "unit",
