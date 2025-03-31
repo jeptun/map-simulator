@@ -1,26 +1,7 @@
 import {create} from 'zustand'
+import {IEntityState} from "@/types/types.ts";
 
-export type Entity = {
-    id: string
-    latitude: number
-    longitude: number
-    status: string
-    vehicleId: string
-    team: string
-    affiliation: string
-    battleDimension: string
-    functionId: string
-    symbolType: string
-}
-
-type EntityState = {
-    entities: Record<string, Entity>
-    addOrUpdateEntity: (entity: Entity) => void
-    removeEntity: (id: string) => void
-    reset: () => void
-}
-
-export const useEntityStore = create<EntityState>((set) => ({
+export const useEntityStore = create<IEntityState>((set) => ({
     entities: {},
 
     addOrUpdateEntity: (entity) =>

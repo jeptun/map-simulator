@@ -1,17 +1,16 @@
-import {Entity} from "@/hooks/useEntityStore"
-import {Vehicle} from "@/hooks/useVehicles"
+import {IEntity} from "@/types/types.ts";
 
-type Props = {
-    entity: Entity
+type TEntityCard = {
+    entity: IEntity
     vehicle: Vehicle | undefined
 }
 
-export const EntityCard = ({entity, vehicle}: Props) => {
+export const EntityCard = ({entity, vehicle}: TEntityCard) => {
     return (
         <div className="rounded-xl shadow p-4 border flex flex-col gap-2 bg-white dark:bg-gray-900">
             <div className="flex items-center gap-3">
                 <img
-                    src={`/icons/${vehicle?.icon ?? "default.png"}`}
+                    src={`/images/${vehicle?.icon ?? "default.png"}`}
                     alt={vehicle?.name}
                     className="w-10 h-10"
                 />

@@ -1,8 +1,8 @@
-import { useEffect } from 'react'
-import { getConnection } from '@/lib/signalr'
-import { useEntityStore } from './useEntityStore'
-import type { Entity } from './useEntityStore'
-import { HubConnectionState } from '@microsoft/signalr'
+import {useEffect} from 'react'
+import {getConnection} from '@/lib/signalr'
+import {useEntityStore} from './useEntityStore'
+import {HubConnectionState} from '@microsoft/signalr'
+import {IEntity} from '@/types/types'
 
 export const useEntityConnection = () => {
     useEffect(() => {
@@ -12,7 +12,7 @@ export const useEntityConnection = () => {
         if (!(connection as any).__handlersRegistered) {
             (connection as any).__handlersRegistered = true
 
-            connection.on('EntityUpdated', (entity: Entity) => {
+            connection.on('EntityUpdated', (entity: IEntity) => {
                 console.log('[SignalR] Přijatá entita:', entity)
                 useEntityStore.getState().addOrUpdateEntity(entity)
             })

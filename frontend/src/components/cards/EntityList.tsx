@@ -9,7 +9,7 @@ export const EntityList = () => {
     return (
         <div className="grid grid-cols-1 gap-4">
             {Object.values(entities).map((entity) => {
-                const vehicle = vehicles?.find((v) => v.id === entity.vehicleId)
+                const vehicle = vehicles?.find((v) => v.vehicleId === entity.vehicleId)
                 return <EntityCard key={entity.id} entity={entity} vehicle={vehicle}/>
             })}
         </div>

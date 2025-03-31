@@ -1,20 +1,12 @@
 import {useQuery} from "@tanstack/react-query"
 import axios from "axios"
 import {useLocalStorage} from "@uidotdev/usehooks"
-
-export type Vehicle = {
-    id: string
-    name: string
-    type: string
-    icon: string
-    color: string
-    description: string
-}
+import {IVehicle} from "@/types/types.ts";
 
 export function useVehicles() {
-    const [cachedVehicles, setCachedVehicles] = useLocalStorage<Vehicle[]>("vehicles", [])
+    const [cachedVehicles, setCachedVehicles] = useLocalStorage<IVehicle[]>("vehicles", [])
 
-    return useQuery<Vehicle[]>({
+    return useQuery<IVehicle[]>({
         queryKey: ["vehicles"],
         queryFn: async () => {
             const res = await axios.get("http://localhost:5133/vehicles")
