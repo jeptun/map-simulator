@@ -1,5 +1,6 @@
 import {useEffect, useRef} from "react"
-import {Map, View} from "ol"
+import OlMap from "ol/Map"
+import View from "ol/View"
 import TileLayer from "ol/layer/Tile"
 import VectorLayer from "ol/layer/Vector"
 import VectorSource from "ol/source/Vector"
@@ -8,13 +9,17 @@ import Feature from "ol/Feature"
 import Point from "ol/geom/Point"
 import {Icon, Style} from "ol/style"
 import {fromLonLat} from "ol/proj"
-import {Entity, useEntityStore} from "@/hooks/useEntityStore"
+import {useEntityStore} from "@/hooks/useEntityStore"
 import "ol/ol.css"
 import ms from "milsymbol"
+import {IEntity} from "@/types/types.ts";
+import type MapBrowserEvent from "ol/MapBrowserEvent"
 
-function createMilSymbol(entity: Entity): string {
+function createMilSymbol(entity: IEntity): string {
+
     const symbol = new ms.Symbol("SFGPUCI----K", {
         size: 40,
+        // @ts-ignore
         affiliation: entity.affiliation,
         status: entity.status,
         battleDimension: entity.battleDimension,
@@ -29,17 +34,20 @@ function createMilSymbol(entity: Entity): string {
 
 function MapComponent() {
     const mapRef = useRef<HTMLDivElement | null>(null)
-    const mapInstance = useRef<Map | null>(null)
+    const mapInstance = useRef<OlMap | null>(null)
     const vectorSourceRef = useRef(new VectorSource())
     const vectorLayerRef = useRef(new VectorLayer({ source: vectorSourceRef.current }))
-    const featureMapRef = useRef<Map<string, Feature>>(new Map())
-
+    const featureMapRef = useRef<globalThis.Map<string, Feature>>(new globalThis.Map())
+    const {setSelectedEntityId} = useEntityStore()
     const { entities } = useEntityStore()
 
     // 🗺️ Inicializace mapy
     useEffect(() => {
-        const map = new Map({
-            target: mapRef.current!,
+
+        if (!mapRef.current) return
+
+        const map = new OlMap({
+            target: mapRef.current as HTMLElement,
             layers: [
                 new TileLayer({ source: new OSM() }),
                 vectorLayerRef.current,
@@ -53,6 +61,29 @@ function MapComponent() {
         mapInstance.current = map
         return () => map.setTarget(null)
     }, [])
+
+    useEffect(() => {
+        const map = mapInstance.current
+        if (!map) return
+
+        const handleClick = (evt: MapBrowserEvent<UIEvent>) => {
+            map.forEachFeatureAtPixel(evt.pixel, (feature) => {
+                const entityId = feature.get('entityId')
+                if (entityId) {
+                    console.log('✅ Kliknuto na entitu:', entityId)
+                    setSelectedEntityId(entityId)
+                }
+            })
+        }
+
+        map.on('click', handleClick)
+
+        // 🧹 Úklid po odmountování
+        return () => {
+            map.un('click', handleClick)
+        }
+    }, [setSelectedEntityId])
+
 
     // 🔁 Aktualizace nebo vytvoření feature pro každou entitu
     useEffect(() => {
@@ -71,6 +102,8 @@ function MapComponent() {
                 feature = new Feature({
                     geometry: new Point(coords),
                 })
+
+                feature.set('entityId', id)
 
                 feature.setStyle(
                     new Style({

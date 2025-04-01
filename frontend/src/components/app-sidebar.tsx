@@ -10,8 +10,7 @@ import {
     SidebarMenuItem,
     SidebarRail,
 } from "@/components/ui/sidebar"
-
-import {EntityList} from "@/components/cards/EntityList.tsx";
+import {EntityDetailPanel} from "@/components/panels/EntityDetailPanel.tsx";
 
 
 export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
@@ -21,9 +20,12 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
                 <SidebarGroup>
                     <SidebarGroupLabel>Table of Contents</SidebarGroupLabel>
                     <SidebarGroupContent>
+
                         <SidebarMenu>
+
                             <SidebarMenuItem>
-                                <EntityList/>
+                                <EntityDetailPanel/>
+                                {/*        <EntityList/>*/}
                             </SidebarMenuItem>
                         </SidebarMenu>
                     </SidebarGroupContent>

@@ -16,6 +16,10 @@ export interface IEntityState {
     addOrUpdateEntity: (entity: IEntity) => void
     removeEntity: (id: string) => void
     reset: () => void
+    selectedEntityId: string | null
+    setSelectedEntityId: (id: string | null) => void
+    logs: string[]
+    addLog: (msg: string) => void
 }
 
 export interface IVehicle {
