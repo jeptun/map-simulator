@@ -4,7 +4,8 @@ import {IEntityState} from "@/types/types.ts";
 export const useEntityStore = create<IEntityState>((set) => ({
     entities: {},
     logs: [],
-
+    isSimulationRunning: false,
+    selectedEntityId: null,
 
     // Přidání entity
     addOrUpdateEntity: (entity) =>
@@ -26,13 +27,17 @@ export const useEntityStore = create<IEntityState>((set) => ({
     // reset stavu
     reset: () => set({entities: {}}),
 
-    // Nový stav pro výběr entity
-    selectedEntityId: null,
+
 
     // Setter pro změnu výběru
     setSelectedEntityId: (id) => set({selectedEntityId: id}),
 
     // Setter pro zobrazení logu
     addLog: (msg: string) => set(state => ({logs: [...state.logs, msg]})),
+
+
+
+    setSimulationRunning: (running: boolean) =>
+        set({ isSimulationRunning: running }),
 
 }))

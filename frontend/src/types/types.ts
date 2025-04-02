@@ -1,16 +1,35 @@
-export interface IEntity {
-    id: string
-    latitude: number
-    longitude: number
-    status: string
-    vehicleId: string
-    team: string
-    affiliation: string
-    battleDimension: string
-    functionId: string
-    symbolType: string
-}
+import { z } from "zod"
 
+// ✅ Zod schéma pro entitu z backendu (SignalR i REST fallback)
+export const EntitySchema = z.object({
+    id: z.string(),
+    vehicleId: z.string(),
+    latitude: z.number(),
+    longitude: z.number(),
+    status: z.string(),
+    team: z.string(),
+    affiliation: z.string(),
+    battleDimension: z.string(),
+    symbolType: z.string(),
+    functionId: z.string(),
+})
+
+export type IEntity = z.infer<typeof EntitySchema>
+
+// ✅ Zod schéma pro vozidlo z REST API
+export const VehicleSchema = z.object({
+    vehicleId: z.string(),
+    name: z.string(),
+    type: z.string(),
+    origin: z.string(),
+    icon: z.string(),
+    color: z.string(),
+    description: z.string(),
+})
+
+export type IVehicle = z.infer<typeof VehicleSchema>
+
+// 🗂 Stavová struktura Zustand store
 export interface IEntityState {
     entities: Record<string, IEntity>
     addOrUpdateEntity: (entity: IEntity) => void
@@ -20,14 +39,6 @@ export interface IEntityState {
     setSelectedEntityId: (id: string | null) => void
     logs: string[]
     addLog: (msg: string) => void
-}
-
-export interface IVehicle {
-    vehicleId: string
-    name: string
-    type: string
-    origin: string
-    icon: string
-    color: string
-    description: string
+    isSimulationRunning: boolean
+    setSimulationRunning: (running: boolean) => void
 }
