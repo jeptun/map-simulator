@@ -7,21 +7,22 @@ import VectorSource from "ol/source/Vector"
 import OSM from "ol/source/OSM"
 import Feature from "ol/Feature"
 import Point from "ol/geom/Point"
-import {Icon, Style} from "ol/style"
+import LineString from "ol/geom/LineString"
+import {Icon, Stroke, Style} from "ol/style"
 import {fromLonLat, toLonLat} from "ol/proj"
 import {useEntityStore} from "@/hooks/useEntityStore"
 import "ol/ol.css"
 import ms from "milsymbol"
 import {EntitySchema, IEntity} from "@/types/types"
 import type MapBrowserEvent from "ol/MapBrowserEvent"
+import {sendStepToBackend} from "@/lib/signalr"
 
-// 🎖️ MILSymbol generátor
+// MILSymbol generátor
 function createMilSymbol(entity: IEntity): string {
     const parsed = EntitySchema.safeParse(entity)
 
     if (!parsed.success) {
         console.warn("❌ Entita neprošla validací při generování MIL symbolu:", parsed.error.format())
-        // Vrátíme např. prázdný nebo výchozí symbol
         return ""
     }
 
@@ -29,7 +30,7 @@ function createMilSymbol(entity: IEntity): string {
 
     const symbol = new ms.Symbol("SFGPUCI----K", {
         size: 40,
-        // @ts-ignore – milsymbol nemá správné TS definice
+        // @ts-ignore
         affiliation: validEntity.affiliation,
         status: validEntity.status,
         battleDimension: validEntity.battleDimension,
@@ -41,7 +42,7 @@ function createMilSymbol(entity: IEntity): string {
     return symbol.toDataURL()
 }
 
-// Animace pohybu entity pomocí requestAnimationFrame
+// Animace pohybu
 function animateMove(
     feature: Feature,
     from: [number, number],
@@ -70,15 +71,26 @@ function animateMove(
     requestAnimationFrame(step)
 }
 
-//  Komponenta s mapou a entitami
+// 🗺️ Komponenta
 function MapComponent() {
     const mapRef = useRef<HTMLDivElement | null>(null)
     const mapInstance = useRef<OlMap | null>(null)
     const vectorSourceRef = useRef(new VectorSource())
     const vectorLayerRef = useRef(new VectorLayer({source: vectorSourceRef.current}))
-    const featureMapRef = useRef<globalThis.Map<string, Feature>>(new Map())
-    const {setSelectedEntityId} = useEntityStore()
-    const {entities} = useEntityStore()
+    const featureMapRef = useRef<Map<string, Feature>>(new Map())
+    const {setSelectedEntityId, entities} = useEntityStore()
+
+    // 🔃 LineString layer na trasy
+    const pathSource = useRef(new VectorSource())
+    const pathLayer = useRef(new VectorLayer({
+        source: pathSource.current,
+        style: new Style({
+            stroke: new Stroke({
+                color: "rgba(0,255,0,0.6)",
+                width: 2,
+            }),
+        }),
+    }))
 
     // 🗺️ Inicializace mapy
     useEffect(() => {
@@ -89,6 +101,7 @@ function MapComponent() {
             layers: [
                 new TileLayer({source: new OSM()}),
                 vectorLayerRef.current,
+                pathLayer.current
             ],
             view: new View({
                 center: fromLonLat([16.6, 49.2]),
@@ -105,7 +118,7 @@ function MapComponent() {
         const map = mapInstance.current
         if (!map) return
 
-        const handleClick = (evt: MapBrowserEvent<UIEvent>) => {
+        const handleClick = async (evt: MapBrowserEvent<UIEvent>) => {
             let selectedId: string | null = null
 
             map.forEachFeatureAtPixel(evt.pixel, (feature) => {
@@ -116,50 +129,38 @@ function MapComponent() {
             })
 
             if (selectedId) {
-                // ✅ Kliknuto na entitu
-                console.log("✅ Kliknuto na entitu:", selectedId)
                 setSelectedEntityId(selectedId)
                 return
             }
 
-            // 🧭 Klik mimo – změna pozice entity
             const coordinate = evt.coordinate
             const [lon, lat] = toLonLat(coordinate)
 
             const {
                 selectedEntityId,
                 entities,
-                addOrUpdateEntity,
                 addLog,
                 isSimulationRunning
             } = useEntityStore.getState()
 
             if (!isSimulationRunning) {
-                console.log("⏸️ Simulace je pozastavená – nelze přesouvat entity.")
+                console.log("⏸️ Simulace je pauznutá – nelze přidávat kroky.")
                 return
             }
 
             const entity = selectedEntityId ? entities[selectedEntityId] : null
             if (!entity) return
 
-            const updated = {
-                ...entity,
-                latitude: lat,
-                longitude: lon,
-                status: "Moving",
-            }
+            await sendStepToBackend(entity.id, lat, lon)
 
-            addOrUpdateEntity(updated)
-            addLog(
-                `[${new Date().toLocaleTimeString()}] ${entity.id} moved to ${lat.toFixed(4)}, ${lon.toFixed(4)}`
-            )
+            addLog(`[${new Date().toLocaleTimeString()}] ➕ ${entity.id} přidal krok na ${lat.toFixed(4)}, ${lon.toFixed(4)}`)
         }
 
         map.on("singleclick", handleClick)
         return () => map.un("singleclick", handleClick)
     }, [setSelectedEntityId])
 
-    // 🔁 Vykreslení nebo aktualizace všech entit
+    // 🔁 Vykresli entity (ikony)
     useEffect(() => {
         const source = vectorSourceRef.current
         const featureMap = featureMapRef.current
@@ -172,28 +173,20 @@ function MapComponent() {
             let feature = featureMap.get(id)
 
             if (!feature) {
-                // 🆕 První vytvoření
-                feature = new Feature({
-                    geometry: new Point(coords),
-                })
-
+                feature = new Feature({geometry: new Point(coords)})
                 feature.set("entityId", id)
 
-                feature.setStyle(
-                    new Style({
-                        image: new Icon({
-                            src: iconUrl,
-                            anchor: [0.5, 0.5],
-                            scale: 1,
-                        }),
-                    })
-                )
+                feature.setStyle(new Style({
+                    image: new Icon({
+                        src: iconUrl,
+                        anchor: [0.5, 0.5],
+                        scale: 1,
+                    }),
+                }))
 
                 source.addFeature(feature)
                 featureMap.set(id, feature)
-                console.log("🟢 Vytvořena feature:", id)
             } else {
-                // 🔄 Aktualizace pozice s animací
                 const geometry = feature.getGeometry() as Point
                 const [x, y] = geometry.getCoordinates()
                 const currentCoords: [number, number] = [x, y]
@@ -203,11 +196,34 @@ function MapComponent() {
                 )
 
                 if (distance > 1) {
-                    animateMove(feature, currentCoords, coords, 1000)
+                    animateMove(feature, currentCoords, coords)
                 } else {
                     geometry.setCoordinates(coords)
                 }
             }
+        })
+    }, [entities])
+
+    // 🔁 Vykresli trasy kroků (steps)
+    useEffect(() => {
+        const pathSrc = pathSource.current
+        pathSrc.clear()
+
+        Object.values(entities).forEach((entity) => {
+            if (!entity.steps || entity.steps.length === 0) return
+
+            const pathCoords = entity.steps.map(step =>
+                fromLonLat([step.longitude, step.latitude])
+            )
+
+            // Přidej i startovní bod entity (vizuálně propojí aktuální pozici s trasou)
+            pathCoords.unshift(fromLonLat([entity.longitude, entity.latitude]))
+
+            const line = new Feature({
+                geometry: new LineString(pathCoords),
+            })
+
+            pathSrc.addFeature(line)
         })
     }, [entities])
 

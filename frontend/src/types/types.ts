@@ -1,6 +1,14 @@
-import { z } from "zod"
+import {z} from "zod"
 
-// ✅ Zod schéma pro entitu z backendu (SignalR i REST fallback)
+export const StepSchema = z.object({
+    latitude: z.number(),
+    longitude: z.number(),
+})
+
+export type IGeoStep = z.infer<typeof StepSchema>
+
+
+// Zod schéma pro entitu z backendu
 export const EntitySchema = z.object({
     id: z.string(),
     vehicleId: z.string(),
@@ -12,11 +20,12 @@ export const EntitySchema = z.object({
     battleDimension: z.string(),
     symbolType: z.string(),
     functionId: z.string(),
+    steps: z.array(StepSchema).optional(),
 })
 
 export type IEntity = z.infer<typeof EntitySchema>
 
-// ✅ Zod schéma pro vozidlo z REST API
+// Zod schéma pro vozidlo z REST API
 export const VehicleSchema = z.object({
     vehicleId: z.string(),
     name: z.string(),
@@ -29,7 +38,8 @@ export const VehicleSchema = z.object({
 
 export type IVehicle = z.infer<typeof VehicleSchema>
 
-// 🗂 Stavová struktura Zustand store
+
+// Stavová struktura Zustand store
 export interface IEntityState {
     entities: Record<string, IEntity>
     addOrUpdateEntity: (entity: IEntity) => void
@@ -41,4 +51,6 @@ export interface IEntityState {
     addLog: (msg: string) => void
     isSimulationRunning: boolean
     setSimulationRunning: (running: boolean) => void
+    addStepToEntity: (id: string, step: IGeoStep) => void
 }
+

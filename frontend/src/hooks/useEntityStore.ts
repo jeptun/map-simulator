@@ -1,5 +1,5 @@
 import {create} from 'zustand'
-import {IEntityState} from "@/types/types.ts";
+import {IEntityState, IGeoStep} from "@/types/types.ts";
 
 export const useEntityStore = create<IEntityState>((set) => ({
     entities: {},
@@ -28,7 +28,6 @@ export const useEntityStore = create<IEntityState>((set) => ({
     reset: () => set({entities: {}}),
 
 
-
     // Setter pro změnu výběru
     setSelectedEntityId: (id) => set({selectedEntityId: id}),
 
@@ -36,8 +35,27 @@ export const useEntityStore = create<IEntityState>((set) => ({
     addLog: (msg: string) => set(state => ({logs: [...state.logs, msg]})),
 
 
+    addStepToEntity: (id: string, step: IGeoStep) => {
+        set(state => {
+            const entity = state.entities[id]
+            if (!entity) return {}
+
+            const updated = {
+                ...entity,
+                steps: [...(entity.steps || []), step]
+            }
+
+            return {
+                entities: {
+                    ...state.entities,
+                    [id]: updated
+                }
+            }
+        })
+    },
+
 
     setSimulationRunning: (running: boolean) =>
-        set({ isSimulationRunning: running }),
+        set({isSimulationRunning: running}),
 
 }))

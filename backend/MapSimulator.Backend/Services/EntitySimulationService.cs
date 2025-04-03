@@ -62,6 +62,19 @@ public class EntitySimulationService : BackgroundService
         _isPaused = false;
     }
 
+    public Task AddStep(string entityId, double lat, double lon)
+    {
+        var entity = EntitySimulationService.Entities.FirstOrDefault(e => e.Id == entityId);
+        if (entity != null)
+        {
+            entity.Steps.Add(new GeoStep { Latitude = lat, Longitude = lon });
+            Console.WriteLine($"📍 Přidán krok pro {entity.Id}: {lat}, {lon}");
+        }
+
+        return Task.CompletedTask;
+    }
+
+
     public void Reset()
     {
         Console.WriteLine("🔁 Resetting simulation...");
@@ -76,12 +89,6 @@ public class EntitySimulationService : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        foreach (var entity in Entities)
-        {
-            await _hubContext.Clients.All.SendAsync("EntityUpdated", entity, cancellationToken: stoppingToken);
-            Console.WriteLine($"📤 Sent entity to clients: {entity.Id}");
-        }
-
         while (!stoppingToken.IsCancellationRequested)
         {
             if (_isPaused)
@@ -90,7 +97,40 @@ public class EntitySimulationService : BackgroundService
                 continue;
             }
 
+            foreach (var entity in Entities)
+            {
+                if (entity.Steps.Count > 0)
+                {
+                    var step = entity.Steps[0];
+
+                    var dx = step.Longitude - entity.Longitude;
+                    var dy = step.Latitude - entity.Latitude;
+                    var distance = Math.Sqrt(dx * dx + dy * dy);
+
+                    if (distance < 0.0003) // přibližně 30–40m
+                    {
+                        entity.Longitude = step.Longitude;
+                        entity.Latitude = step.Latitude;
+                        entity.Steps.RemoveAt(0);
+                        entity.Status = "Idle";
+
+                        Console.WriteLine($"✅ {entity.Id} dorazil na krok {step.Latitude},{step.Longitude}");
+                    }
+                    else
+                    {
+                        // Posun mezi body
+                        entity.Longitude += dx * 0.2;
+                        entity.Latitude += dy * 0.2;
+                        entity.Status = "Moving";
+                    }
+
+                    // 📡 Odeslat aktualizaci klientům
+                    await _hubContext.Clients.All.SendAsync("EntityUpdated", entity, cancellationToken: stoppingToken);
+                }
+            }
+
             await Task.Delay(1000, stoppingToken);
         }
     }
+
 }
