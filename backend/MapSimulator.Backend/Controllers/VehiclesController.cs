@@ -3,10 +3,93 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MapSimulator.Backend.Controllers;
 
+/// <summary>
+/// Spravuje dostupná vojenská vozidla použitelná v simulaci.
+/// </summary>
 [ApiController]
 [Route("vehicles")]
+[Produces("application/json")]
 public class VehiclesController : ControllerBase
 {
+    /// <summary>
+    /// Vrací seznam všech vojenských vozidel.
+    /// </summary>
+    /// <remarks>
+    /// Tento endpoint vrací všechna vozidla (tank, dron, vozidlo), která lze použít v simulaci.
+    /// Každé vozidlo obsahuje popis, typ, původ a barvu.
+    /// </remarks>
+    /// <response code="200">Vrací úspěšně seznam vozidel</response>
+    /// <response code="500">Interní chyba serveru</response>
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Vehicle>))]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public ActionResult<IEnumerable<Vehicle>> GetAll()
+    {
+        return Ok(Vehicles);
+    }
+
+
+
+    /// <summary>
+    /// Vrací detail jednoho konkrétního vozidla.
+    /// </summary>
+    /// <param name="id">Identifikátor vozidla (např. T90M)</param>
+    /// <response code="200">Vrací nalezené vozidlo</response>
+    /// <response code="400">Neplatný formát identifikátoru</response>
+    /// <response code="404">Pokud vozidlo nebylo nalezeno</response>
+    /// <response code="500">Interní chyba serveru</response>
+    [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Vehicle))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public ActionResult<Vehicle> GetById(string id)
+    {
+        if (string.IsNullOrWhiteSpace(id))
+            return BadRequest("ID nesmí být prázdné.");
+
+        var vehicle = Vehicles.FirstOrDefault(v => v.VehicleId.Equals(id, StringComparison.OrdinalIgnoreCase));
+
+        if (vehicle is null)
+            return NotFound($"Vozidlo s ID '{id}' nebylo nalezeno.");
+
+        return Ok(vehicle);
+    }
+
+
+    /// <summary>
+    /// Vrací všechna vozidla daného typu.
+    /// </summary>
+    /// <remarks>
+    /// Např. všechny drony nebo všechny těžké tanky.
+    /// </remarks>
+    /// <param name="type">Typ vozidla (heavy, light, air)</param>
+    /// <response code="200">Seznam nalezených vozidel</response>
+    /// <response code="400">Typ není specifikován</response>
+    /// <response code="404">Žádné vozidlo daného typu nebylo nalezeno</response>
+    /// <response code="500">Interní chyba serveru</response>
+    [HttpGet("type/{type}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Vehicle>))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public ActionResult<IEnumerable<Vehicle>> GetAllByType(string type)
+    {
+        if (string.IsNullOrWhiteSpace(type))
+            return BadRequest("Typ vozidla nesmí být prázdný.");
+
+        var result = Vehicles
+            .Where(v => v.Type.Equals(type, StringComparison.OrdinalIgnoreCase))
+            .ToList();
+
+        if (result.Count == 0)
+            return NotFound($"Žádné vozidlo typu '{type}' nebylo nalezeno.");
+
+        return Ok(result);
+    }
+
+
+
     private static readonly List<Vehicle> Vehicles = new()
     {
         // Evropské tanky
@@ -106,9 +189,5 @@ public class VehiclesController : ControllerBase
         },
     };
 
-    [HttpGet]
-    public ActionResult<IEnumerable<Vehicle>> GetAll()
-    {
-        return Ok(Vehicles);
-    }
+
 }

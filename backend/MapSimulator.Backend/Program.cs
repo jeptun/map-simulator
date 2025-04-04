@@ -22,12 +22,30 @@ builder.Services.AddSignalR();
 builder.Services.AddHostedService<EntitySimulationService>(); //Simulátor entit
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    options.IncludeXmlComments(xmlPath);
+});
 
 var app = builder.Build();
 
 app.UseSwagger();
-app.UseSwaggerUI();
+
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "MapSimulator API v1");
+    c.RoutePrefix = "swagger"; // URL bude http://localhost:5133/swagger
+});
+
+
+app.UseReDoc(c =>
+{
+    c.SpecUrl("/swagger/v1/swagger.json");
+    c.RoutePrefix = "redoc"; // URL bude http://localhost:5133/redoc
+    c.DocumentTitle = "MapSimulator – ReDoc";
+});
 
 app.UseCors(); // ✅ Aktivace CORS
 
