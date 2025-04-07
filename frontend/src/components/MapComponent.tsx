@@ -28,7 +28,6 @@ function createMilSymbol(entity: IEntity): string {
 
     const validEntity = parsed.data
 
-    // 🎨 Můžeme barvu odvodit podle týmu nebo stavu
     const fillColor =
         validEntity.team === "Red"
             ? "#ff4d4f"
