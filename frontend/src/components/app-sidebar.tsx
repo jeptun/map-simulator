@@ -21,7 +21,7 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
         <Sidebar  {...props}>
             <SidebarContent>
                 <SidebarGroup>
-                    <SidebarGroupLabel>Table of Contents</SidebarGroupLabel>
+                    <SidebarGroupLabel>Side Panel</SidebarGroupLabel>
                     <SidebarGroupContent>
 
                         <SidebarMenu>

@@ -1,5 +1,7 @@
 # 🗺️ Map Simulator
 
+![Alternativní text](map-simulator.png)
+
 Webová aplikace pro vizualizaci simulovaných vojenských jednotek pohybujících se po mapě v reálném čase. Projekt využívá
 technologie jako React, TypeScript, OpenLayers a SignalR (WebSocket) pro interaktivní simulace a vizualizace.
 
