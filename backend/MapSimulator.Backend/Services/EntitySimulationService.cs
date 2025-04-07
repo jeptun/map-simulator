@@ -31,10 +31,6 @@ public class EntitySimulationService : BackgroundService
                 Longitude = 16.6000,
                 Team = "Blue",
                 Status = "Idle",
-                Affiliation = "Friend",
-                BattleDimension = "Ground",
-                SymbolType = "unit",
-                FunctionId = "UCI"
             },
             new Entity
             {
@@ -44,10 +40,6 @@ public class EntitySimulationService : BackgroundService
                 Longitude = 16.6000,
                 Team = "Red",
                 Status = "Idle",
-                Affiliation = "Hostile",
-                BattleDimension = "Ground",
-                SymbolType = "unit",
-                FunctionId = "UCI"
             }
         };
     }

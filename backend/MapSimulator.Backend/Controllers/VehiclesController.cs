@@ -99,6 +99,7 @@ public class VehiclesController : ControllerBase
             Name = "Leopard 2A7",
             Type = "heavy",
             Origin = "Europe",
+            Image = "leopard2a7.png",
             Icon = "leopard2a7.png",
             Color = "#007bff",
             Description = "Německý hlavní bojový tank s vysokou přesností a moderní ochranou."
@@ -109,6 +110,7 @@ public class VehiclesController : ControllerBase
             Name = "Leclerc",
             Type = "heavy",
             Origin = "Europe",
+            Image = "leclerc.png",
             Icon = "leclerc.png",
             Color = "#007bff",
             Description = "Francouzský tank s automatickým nabíjením a nízkou váhou."
@@ -122,6 +124,7 @@ public class VehiclesController : ControllerBase
             Name = "T-90M",
             Type = "heavy",
             Origin = "Russia",
+            Image = "t90m.png",
             Icon = "t90m.png",
             Color = "#dc3545",
             Description = "Modernizovaná verze ruského tanku s reaktivním pancéřováním a aktivní ochranou."
@@ -132,6 +135,7 @@ public class VehiclesController : ControllerBase
             Name = "T-80U",
             Type = "heavy",
             Origin = "Russia",
+            Image = "t80u.png",
             Icon = "t80u.png",
             Color = "#dc3545",
             Description = "Rychlý tank s plynovou turbínou a dobrými terénními schopnostmi."
@@ -145,6 +149,7 @@ public class VehiclesController : ControllerBase
             Name = "Boxer IFV",
             Type = "light",
             Origin = "Europe",
+            Image = "boxer.png",
             Icon = "boxer.png",
             Color = "#28a745",
             Description = "Modulární obrněné vozidlo s variabilní výzbrojí."
@@ -158,6 +163,7 @@ public class VehiclesController : ControllerBase
             Name = "BTR-82A",
             Type = "light",
             Origin = "Russia",
+            Image = "btr82a.png",
             Icon = "btr82a.png",
             Color = "#dc3545",
             Description = "Pancéřovaný transportér s 30mm kanónem."
@@ -171,6 +177,7 @@ public class VehiclesController : ControllerBase
             Name = "MQ-9 Reaper",
             Type = "air",
             Origin = "Europe",
+            Image = "mq9.png",
             Icon = "mq9.png",
             Color = "#0dcaf0",
             Description = "Ozbrojený průzkumný a útočný dron dlouhého doletu."
@@ -183,6 +190,7 @@ public class VehiclesController : ControllerBase
             Name = "Orlan-10",
             Type = "air",
             Origin = "Russia",
+            Image = "orlan10.png",
             Icon = "orlan10.png",
             Color = "#dc3545",
             Description = "Lehký průzkumný dron s dlouhou výdrží."
