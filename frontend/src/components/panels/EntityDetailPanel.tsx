@@ -27,15 +27,19 @@ export const EntityDetailPanel = () => {
 
     return (
         <div className="p-4 space-y-4">
-            <div>
-                <h2 className="text-lg font-bold">{vehicle?.name ?? entity.vehicleId}</h2>
-                <p className="text-sm text-muted-foreground">{vehicle?.description}</p>
-            </div>
+            <h2 className="text-lg font-bold">{vehicle?.name ?? entity.vehicleId}</h2>
+            <div className="flex gap-4">
+                <div className="w-1/2">
+                    <img className="w-full rounded-2xl" src={`/images/${vehicle?.image ?? "default.png"}`}
+                         alt={vehicle?.name ?? "Vozidlo"}/>
+                </div>
+                <div className="w-1/2 text-sm ">
+                    <p><strong>ID:</strong> {entity.id}</p>
+                    <p><strong>Status:</strong> {entity.status}</p>
+                    <p><strong>Tým:</strong> {entity.team}</p>
+                    <p className="text-sm text-muted-foreground">{vehicle?.description}</p>
+                </div>
 
-            <div className="text-sm space-y-1">
-                <p><strong>ID:</strong> {entity.id}</p>
-                <p><strong>Status:</strong> {entity.status}</p>
-                <p><strong>Tým:</strong> {entity.team}</p>
             </div>
 
             <div className="flex flex-wrap gap-2">

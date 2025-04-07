@@ -2,7 +2,8 @@ import * as React from "react"
 
 import {
     Sidebar,
-    SidebarContent, SidebarFooter,
+    SidebarContent,
+    SidebarFooter,
     SidebarGroup,
     SidebarGroupContent,
     SidebarGroupLabel,
@@ -12,6 +13,7 @@ import {
 } from "@/components/ui/sidebar"
 import {EntityDetailPanel} from "@/components/panels/EntityDetailPanel.tsx";
 import {SimulationControlPanel} from "@/components/panels/SimulationControlPanel.tsx";
+import {SimulationLogPanel} from "@/components/panels/SimulationLogPanel.tsx";
 
 
 export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
@@ -21,10 +23,13 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
                 <SidebarGroup>
                     <SidebarGroupLabel>Table of Contents</SidebarGroupLabel>
                     <SidebarGroupContent>
+
                         <SidebarMenu>
                             <SidebarMenuItem>
                                 <EntityDetailPanel/>
-                                {/*        <EntityList/>*/}
+                            </SidebarMenuItem>
+                            <SidebarMenuItem>
+                                <SimulationLogPanel/>
                             </SidebarMenuItem>
                         </SidebarMenu>
                     </SidebarGroupContent>
@@ -33,11 +38,7 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
             <SidebarFooter>
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        {/*<SidebarMenuButton>*/}
-                        {/*    <Plus />*/}
-                        {/*    <span>New Calendar</span>*/}
-                        {/*</SidebarMenuButton>*/}
-                        <SimulationControlPanel />
+                        <SimulationControlPanel/>
                     </SidebarMenuItem>
                 </SidebarMenu>
             </SidebarFooter>

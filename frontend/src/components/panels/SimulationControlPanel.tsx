@@ -1,7 +1,7 @@
-import { Button } from "@/components/ui/button"
-import { useEntityStore } from "@/hooks/useEntityStore"
-import { getConnection } from "@/lib/signalr"
-import { HubConnectionState } from "@microsoft/signalr"
+import {Button} from "@/components/ui/button"
+import {useEntityStore} from "@/hooks/useEntityStore"
+import {getConnection} from "@/lib/signalr"
+import {HubConnectionState} from "@microsoft/signalr"
 
 export const SimulationControlPanel = () => {
     const { isSimulationRunning, setSimulationRunning, addLog } = useEntityStore()
@@ -29,13 +29,13 @@ export const SimulationControlPanel = () => {
     }
 
     return (
-        <div className="p-4 space-y-2 flex flex-col gap-2">
+        <div className="p-4 flex  gap-2">
             <Button
                 onClick={() => sendCommand("ResumeSimulation", "▶️ Simulation started", true)}
                 disabled={!isConnected || isSimulationRunning}
                 variant="default"
             >
-                ▶️ Start Simulation
+                ▶️ Start
             </Button>
 
             <Button
@@ -43,7 +43,7 @@ export const SimulationControlPanel = () => {
                 disabled={!isConnected || !isSimulationRunning}
                 variant="secondary"
             >
-                ⏸️ Pause Simulation
+                ⏸️ Pause
             </Button>
 
             <Button
@@ -51,7 +51,7 @@ export const SimulationControlPanel = () => {
                 disabled={!isConnected}
                 variant="destructive"
             >
-                🔄 Reset Simulation
+                🔄 Reset
             </Button>
         </div>
     )

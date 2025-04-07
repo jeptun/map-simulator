@@ -1,10 +1,10 @@
 // useEntityConnection.ts
-import { useEffect, useState } from 'react'
-import { getConnection } from '@/lib/signalr'
-import { useEntityStore } from './useEntityStore'
-import { HubConnectionState } from '@microsoft/signalr'
-import { EntitySchema, VehicleSchema } from "@/types/types"
-import { z } from "zod"
+import {useEffect, useState} from 'react'
+import {getConnection} from '@/lib/signalr'
+import {useEntityStore} from './useEntityStore'
+import {HubConnectionState} from '@microsoft/signalr'
+import {EntitySchema, VehicleSchema} from "@/types/types"
+import {z} from "zod"
 import axios from "axios"
 
 export const useEntityConnection = (): boolean => {
@@ -64,10 +64,8 @@ export const useEntityConnection = (): boolean => {
                                 longitude: 16.6,
                                 status: "Idle",
                                 team: i % 2 === 0 ? "Blue" : "Red",
-                                affiliation: i % 2 === 0 ? "Friend" : "Hostile",
-                                battleDimension: "Ground",
-                                symbolType: "unit",
-                                functionId: "UCI"
+
+
                             }
 
                             const parsedEntity = EntitySchema.safeParse(fallbackEntity)

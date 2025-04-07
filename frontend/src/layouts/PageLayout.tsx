@@ -4,12 +4,18 @@ import {ModeToggle} from "@/components/mode-toggle"
 import NavMenu from "@/components/NavMenu"
 import MapComponent from "@/components/MapComponent"
 
+interface SidebarProviderStyle {
+    [key: string]: string | number;
+}
 
 export default function PageLayout() {
 
 
     return (
-        <SidebarProvider>
+        <SidebarProvider style={{
+            "--sidebar-width": "20rem" as string,
+            "--sidebar-width-mobile": "20rem",
+        } as SidebarProviderStyle}>
             <SidebarInset>
                 <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
                     <NavMenu/>

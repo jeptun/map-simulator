@@ -16,10 +16,6 @@ export const EntitySchema = z.object({
     longitude: z.number(),
     status: z.string(),
     team: z.string(),
-    affiliation: z.string(),
-    battleDimension: z.string(),
-    symbolType: z.string(),
-    functionId: z.string(),
     steps: z.array(StepSchema).optional(),
 })
 
@@ -31,6 +27,7 @@ export const VehicleSchema = z.object({
     name: z.string(),
     type: z.string(),
     origin: z.string(),
+    image: z.string(),
     icon: z.string(),
     color: z.string(),
     description: z.string(),
@@ -52,5 +49,6 @@ export interface IEntityState {
     isSimulationRunning: boolean
     setSimulationRunning: (running: boolean) => void
     addStepToEntity: (id: string, step: IGeoStep) => void
+    clearLogs: () => void
 }
 

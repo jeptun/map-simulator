@@ -34,6 +34,8 @@ export const useEntityStore = create<IEntityState>((set) => ({
     // Setter pro zobrazení logu
     addLog: (msg: string) => set(state => ({logs: [...state.logs, msg]})),
 
+    clearLogs: () => set({logs: []}),
+
 
     addStepToEntity: (id: string, step: IGeoStep) => {
         set(state => {

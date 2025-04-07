@@ -28,19 +28,23 @@ function createMilSymbol(entity: IEntity): string {
 
     const validEntity = parsed.data
 
+    // 🎨 Můžeme barvu odvodit podle týmu nebo stavu
+    const fillColor =
+        validEntity.team === "Red"
+            ? "#ff4d4f"
+            : validEntity.team === "Blue"
+                ? "#1890ff"
+                : "#666666"
+
     const symbol = new ms.Symbol("SFGPUCI----K", {
         size: 40,
-        // @ts-ignore
-        affiliation: validEntity.affiliation,
-        status: validEntity.status,
-        battleDimension: validEntity.battleDimension,
-        symbolType: validEntity.symbolType,
-        functionId: validEntity.functionId,
+        fillColor,
         additionalInformation: validEntity.id,
     })
 
     return symbol.toDataURL()
 }
+
 
 // Animace pohybu
 function animateMove(
@@ -71,7 +75,7 @@ function animateMove(
     requestAnimationFrame(step)
 }
 
-// 🗺️ Komponenta
+//  Komponenta
 function MapComponent() {
     const mapRef = useRef<HTMLDivElement | null>(null)
     const mapInstance = useRef<OlMap | null>(null)
@@ -153,7 +157,7 @@ function MapComponent() {
 
             await sendStepToBackend(entity.id, lat, lon)
 
-            addLog(`[${new Date().toLocaleTimeString()}] ➕ ${entity.id} přidal krok na ${lat.toFixed(4)}, ${lon.toFixed(4)}`)
+            addLog(`[${new Date().toLocaleTimeString()}] ${entity.id} move to ${lat.toFixed(1)}, ${lon.toFixed(1)}`)
         }
 
         map.on("singleclick", handleClick)
